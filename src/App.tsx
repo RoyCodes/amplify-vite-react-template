@@ -8,8 +8,8 @@ import Tabs from "@cloudscape-design/components/tabs";
 import ContentLayout from "@cloudscape-design/components/content-layout";
 import Container from "@cloudscape-design/components/container";
 import Button from "@cloudscape-design/components/button";
-
-
+import AdminTab from "./AdminTab"
+import UserTab from "./UserTab"
 
 const client = generateClient<Schema>();
 
@@ -27,26 +27,7 @@ function App() {
   }
 
   return (
-    <Authenticator
-      components={{
-        SignIn: {
-          Header() {
-            return <h1 style={{ textAlign: "center" }}>Sign In</h1>;
-          },
-          Footer() {
-            return <div style={{ textAlign: "center" }}>Need help? Contact support.</div>;
-          },
-        },
-        SignUp: {
-          Header() {
-            return <h1 style={{ textAlign: "center" }}>Create a New Account</h1>;
-          },
-          Footer() {
-            return <div style={{ textAlign: "center" }}>Welcome to the platform!</div>;
-          },
-        },
-      }}
-    >
+    <Authenticator>
       {({ signOut, user }) => (
         <main>
           <ContentLayout>
@@ -56,28 +37,13 @@ function App() {
                   {
                     label: "Admin",
                     id: "first",
-                    content: (
-                      <div>
-                        <button onClick={createTodo}>+ new</button>
-                        <ul>
-                          {todos.map((todo) => (
-                            <li key={todo.id}>{todo.content}</li>
-                          ))}
-                        </ul>
-                        <div>
-                          🥳 App successfully hosted. Try creating a new todo.
-                          <br />
-                          <a href="https://docs.amplify.aws/react/start/quickstart/#make-frontend-updates">
-                            Review next step of this tutorial.
-                          </a>
-                        </div>
-                      </div>
-                    ),
+                    content: <AdminTab />
+
                   },
                   {
                     label: "User",
                     id: "second",
-                    content: "Second tab content area"
+                    content: <UserTab />
                   }
                 ]}
                 variant="container"
