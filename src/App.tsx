@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import type { Schema } from "../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
 import { Authenticator } from "@aws-amplify/ui-react";
-import "@aws-amplify/ui-react/styles.css";
+import "@cloudscape-design/global-styles/index.css";
 
 const client = generateClient<Schema>();
 
@@ -23,7 +23,7 @@ function App() {
     <Authenticator>
       {({ signOut, user}) => (
       <main>
-        <h1>My todos</h1>
+        <h1></h1>
         <button onClick={createTodo}>+ new</button>
         <ul>
           {todos.map((todo) => (
