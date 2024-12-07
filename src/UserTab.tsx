@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Container from "@cloudscape-design/components/container";
 import Input from "@cloudscape-design/components/input";
 import Button from "@cloudscape-design/components/button";
