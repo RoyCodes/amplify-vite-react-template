@@ -1,7 +1,7 @@
 import Container from "@cloudscape-design/components/container";
 import ChatBubble from "@cloudscape-design/chat-components/chat-bubble";
-import ButtonGroup from "@cloudscape-design/components/button-group";
-import StatusIndicator from "@cloudscape-design/components/status-indicator";
+// import ButtonGroup from "@cloudscape-design/components/button-group";
+// import StatusIndicator from "@cloudscape-design/components/status-indicator";
 import Avatar from "@cloudscape-design/chat-components/avatar";
 import PromptInput from "@cloudscape-design/components/prompt-input";
 import * as React from "react";
@@ -9,8 +9,32 @@ import { post } from 'aws-amplify/api';
 import { fetchAuthSession } from 'aws-amplify/auth';
 
 export default function UserTab() {
-  const [value, setValue] = React.useState("");
 
+  type Message = {
+    sender: string;
+    content: string;
+    type: "incoming" | "outgoing";
+    timestamp: Date;
+    iconName: "gen-ai" | "user-profile";
+    ariaLabel: string;
+    tooltipText: string;
+  };
+
+  // State
+  const [value, setValue] = React.useState("");
+  const [message, setMessage] = React.useState<Message[]>([
+    {
+      sender: 'AI',
+      content: 'Welcome! How can I assist you today?',
+      type: "incoming",
+      timestamp: new Date(),
+      iconName: "gen-ai",
+      ariaLabel: "Generative AI assistant",
+      tooltipText: "Generative AI assistant"
+    }
+  ]);
+
+  // Logic
   async function postItem(detail: string) {
     try {
 
@@ -31,8 +55,20 @@ export default function UserTab() {
       });
 
       const { body } = await restOperation.response;
-      const response = await body.json();
+      const response = await body.text();
 
+      setMessage((prevMessages) => [
+        ...prevMessages,
+        {
+          sender: "AI",
+          content: response,
+          type: "incoming",
+          timestamp: new Date(),
+          iconName: "gen-ai",
+          ariaLabel: "Generative AI assistant",
+          tooltipText: "Generative AI assistant",
+        },
+      ]);
       console.log('POST call succeeded');
       console.log(response);
     } catch (error: any) {
@@ -40,84 +76,28 @@ export default function UserTab() {
     }
   }
 
-
-
+  // Render
   return (
     <Container header={<h2>Chat with a generative AI assistant</h2>}>
 
-      <ChatBubble
-        ariaLabel="Generative AI assistant at 6:35:10pm"
-        type="incoming"
-        actions={
-          <ButtonGroup
-            ariaLabel="Chat bubble actions"
-            variant="icon"
-            items={[
-              {
-                type: "group",
-                text: "Feedback",
-                items: [
-                  {
-                    type: "icon-toggle-button",
-                    id: "helpful",
-                    iconName: "thumbs-up",
-                    pressedIconName: "thumbs-up-filled",
-                    text: "Helpful",
-                    pressed: true
-                  },
-                  {
-                    type: "icon-toggle-button",
-                    id: "not-helpful",
-                    iconName: "thumbs-down",
-                    pressedIconName: "thumbs-down-filled",
-                    text: "Not helpful",
-                    pressed: false,
-                    disabled: true
-                  }
-                ]
-              },
-              {
-                type: "icon-button",
-                id: "copy",
-                iconName: "copy",
-                text: "Copy",
-                popoverFeedback: (
-                  <StatusIndicator type="success">
-                    Message copied
-                  </StatusIndicator>
-                )
-              }
-            ]}
-          />
-        }
-        avatar={
-          <Avatar
-            color="gen-ai"
-            iconName="gen-ai"
-            ariaLabel="Generative AI assistant"
-            tooltipText="Generative AI assistant"
-          />
-        }
-      >
-        Amazon S3 is built using AWS's highly available and
-        reliable infrastructure. Our distributed DNS servers
-        ensure that you can consistently route your end
-        users to your application.
-      </ChatBubble>
-
-      <ChatBubble
-        ariaLabel="John Doe at 5:29:02pm"
-        type="outgoing"
-        avatar={
-          <Avatar
-            ariaLabel="John Doe"
-            tooltipText="John Doe"
-            initials="JD"
-          />
-        }
-      >
-        What can I do with Amazon S3?
-      </ChatBubble>
+      <Container>
+        {message.map((msg, index) => (
+          < ChatBubble
+            key={index}
+            ariaLabel={`${msg.sender} at ${msg.timestamp.toLocaleDateString()}`}
+            type={msg.type}
+            avatar={
+              <Avatar
+                iconName={msg.iconName}
+                ariaLabel={msg.ariaLabel}
+                tooltipText={msg.tooltipText}
+              />
+            }
+          >
+            {msg.content}
+          </ChatBubble>
+        ))}
+      </Container>
 
       <PromptInput
         onChange={({ detail }) => setValue(detail.value)}
@@ -126,9 +106,23 @@ export default function UserTab() {
         actionButtonIconName="send"
         ariaLabel="Prompt input with action button"
         placeholder="Ask a question"
-        onAction={({ detail }) => {postItem(detail.value)}}
+        onAction={({ detail }) => {
+          postItem(detail.value);
+          setMessage((prevMessages) => [
+            ...prevMessages,
+            {
+              sender: "User",
+              content: detail.value,
+              type: "outgoing",
+              timestamp: new Date(),
+              iconName: "user-profile",
+              ariaLabel: "User",
+              tooltipText: "User",
+            },
+          ]);
+          setValue("");
+        }}
       />
-
     </Container>
   );
 }
