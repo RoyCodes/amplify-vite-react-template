@@ -8,14 +8,15 @@ import * as React from "react";
 import { post } from 'aws-amplify/api';
 import { fetchAuthSession } from 'aws-amplify/auth';
 
-const session = await fetchAuthSession();
-const token = session.tokens?.accessToken
-
 export default function UserTab() {
   const [value, setValue] = React.useState("");
 
   async function postItem(detail: string) {
     try {
+
+      const session = await fetchAuthSession();
+      const token = session.tokens?.accessToken
+
       const restOperation = post({
         apiName: 'chatApi',
         path: '/chat',
@@ -125,10 +126,7 @@ export default function UserTab() {
         actionButtonIconName="send"
         ariaLabel="Prompt input with action button"
         placeholder="Ask a question"
-        onAction={({ detail }) => {
-          postItem(detail.value)
-          console.log(`here is the token: ${token}`);
-        }}
+        onAction={({ detail }) => {postItem(detail.value)}}
       />
 
     </Container>
