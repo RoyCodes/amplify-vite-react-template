@@ -1,6 +1,7 @@
 import { defineBackend } from '@aws-amplify/backend';
 import { auth } from './auth/resource';
 import { userTab } from './functions/usertab/resource';
+import { adminTab } from './functions/admintab/resource';
 import { Stack } from 'aws-cdk-lib';
 import {
   CorsHttpMethod,
@@ -13,6 +14,7 @@ import { HttpLambdaIntegration } from 'aws-cdk-lib/aws-apigatewayv2-integrations
 const backend = defineBackend({
   auth,
   userTab,
+  adminTab,
 });
 
 // Create a new API stack
