@@ -29,10 +29,16 @@ const userPoolAuthorizer = new HttpUserPoolAuthorizer(
   }
 );
 
-// Create an HTTP Lambda integration
-const httpLambdaIntegration = new HttpLambdaIntegration(
-  'LambdaIntegration',
+// Create an HTTP Lambda integration for user tab
+const httpUserLambdaIntegration = new HttpLambdaIntegration(
+  'UserLambdaIntegration',
   backend.userTab.resources.lambda
+);
+
+// Create an HTTP Lambda integration for admin tab
+const httpAdminLambdaIntegration = new HttpLambdaIntegration(
+  'AdminLambdaIntegration',
+  backend.adminTab.resources.lambda
 );
 
 // Create an HTTP API
@@ -46,11 +52,19 @@ const httpApi = new HttpApi(apiStack, 'HttpApi', {
   createDefaultStage: true,
 });
 
-// Add a single route for the Lambda function
+// Add a route which hits the user tab Lambda function
 httpApi.addRoutes({
   path: '/chat',
   methods: [HttpMethod.POST], // Only POST requests
-  integration: httpLambdaIntegration,
+  integration: httpUserLambdaIntegration,
+  authorizer: userPoolAuthorizer, // Only logged-in users can access
+});
+
+// Add a route which hits the user tab Lambda function
+httpApi.addRoutes({
+  path: '/upload',
+  methods: [HttpMethod.POST], // Only POST requests
+  integration: httpAdminLambdaIntegration,
   authorizer: userPoolAuthorizer, // Only logged-in users can access
 });
 
