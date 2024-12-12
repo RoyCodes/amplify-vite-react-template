@@ -11,13 +11,13 @@ export default function AdminTab() {
 
   // State
   const [value, setValue] = React.useState<File[]>([]);
-  const [uploading, setUploading] = React.useState(false);
-  const [uploadStatus, setUploadStatus] = React.useState<string | null>(null);
+  // const [uploading, setUploading] = React.useState(false);
+  // const [uploadStatus, setUploadStatus] = React.useState<string | null>(null);
 
   // Logic
   const handleSubmit = async () => {
-    setUploading(true);
-    setUploadStatus(null);
+    // setUploading(true);
+    // setUploadStatus(null);
 
     try {
       for (const file of value) {
@@ -34,12 +34,12 @@ export default function AdminTab() {
         });
       }
 
-      setUploadStatus("Files uploaded successfully.");
+      // setUploadStatus("Files uploaded successfully.");
     } catch (error) {
       console.error("File upload failed:", error);
-      setUploadStatus("File upload failed. Please try again.");
+      // setUploadStatus("File upload failed. Please try again.");
     } finally {
-      setUploading(false);
+      // setUploading(false);
       setValue([]);
     }
   };
