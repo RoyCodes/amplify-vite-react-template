@@ -15,7 +15,7 @@ export const knowledgeBaseRawFiles = defineStorage({
 export const knowledgeBaseProcessedFiles = defineStorage({
     name: 'knowledgeBaseProcessedFiles',
     access: (allow) => ({
-        '*': [
+        '/*': [
           allow.resource(adminTab).to(['read', 'write']), // Allow Lambda to access this bucket
         ],
       }),
