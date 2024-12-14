@@ -4,7 +4,7 @@ import { adminTab } from '../functions/admintab/resource';
 export const knowledgeBaseRawFiles = defineStorage({
     name: 'knowledgeBaseRawFiles',
     triggers: {
-        onUpload: adminTab},
+        onUpload: adminTab, },
     access: (allow) => ({
         'knowledge-base-raw-files/*': [
             allow.authenticated.to(['read', 'write', 'delete'])
@@ -15,8 +15,8 @@ export const knowledgeBaseRawFiles = defineStorage({
 export const knowledgeBaseProcessedFiles = defineStorage({
     name: 'knowledgeBaseProcessedFiles',
     access: (allow) => ({
-        '/*': [
-          allow.resource(adminTab).to(['read', 'write']), // Allow Lambda to access this bucket
-        ],
-      }),
+        'knowledge-base-processed-files/*': [
+          allow.resource(adminTab).to(['read', 'write'])
+        ]
+      })
 });
