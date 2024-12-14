@@ -1,14 +1,6 @@
-import type { APIGatewayProxyHandlerV2 } from "aws-lambda";
+import type { S3Handler } from 'aws-lambda';
 
-export const handler: APIGatewayProxyHandlerV2 = async (event) => {
-  console.log("event", event);
-  return {
-    statusCode: 200,
-    // Modify the CORS settings below to match your specific requirements
-    headers: {
-      "Access-Control-Allow-Origin": "*", // Restrict this to domains you trust
-      "Access-Control-Allow-Headers": "*", // Specify only the headers you need to allow
-    },
-    body: JSON.stringify("Hello from api-function!"),
-  };
+export const handler: S3Handler = async (event) => {
+  const objectKeys = event.Records.map((record) => record.s3.object.key);
+  console.log(`Upload handler invoked for objects [${objectKeys.join(', ')}]`);
 };

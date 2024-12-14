@@ -37,11 +37,6 @@ const httpUserLambdaIntegration = new HttpLambdaIntegration(
   backend.userTab.resources.lambda
 );
 
-// Create an HTTP Lambda integration for admin tab
-const httpAdminLambdaIntegration = new HttpLambdaIntegration(
-  'AdminLambdaIntegration',
-  backend.adminTab.resources.lambda
-);
 
 // Create an HTTP API
 const httpApi = new HttpApi(apiStack, 'HttpApi', {
@@ -59,14 +54,6 @@ httpApi.addRoutes({
   path: '/chat',
   methods: [HttpMethod.POST], // Only POST requests
   integration: httpUserLambdaIntegration,
-  authorizer: userPoolAuthorizer, // Only logged-in users can access
-});
-
-// Add a route which hits the user tab Lambda function
-httpApi.addRoutes({
-  path: '/upload',
-  methods: [HttpMethod.POST], // Only POST requests
-  integration: httpAdminLambdaIntegration,
   authorizer: userPoolAuthorizer, // Only logged-in users can access
 });
 
