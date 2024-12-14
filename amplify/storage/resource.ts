@@ -3,6 +3,7 @@ import { adminTab } from '../functions/admintab/resource';
 
 export const knowledgeBaseRawFiles = defineStorage({
     name: 'knowledgeBaseRawFiles',
+    isDefault: true,
     triggers: {
         onUpload: adminTab, },
     access: (allow) => ({
