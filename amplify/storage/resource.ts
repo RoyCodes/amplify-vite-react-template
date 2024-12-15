@@ -6,7 +6,10 @@ export const storage = defineStorage({
     triggers: {
         onUpload: adminTab, },
     access: (allow) => ({
-        'knowledge-base-raw-files/*': [allow.authenticated.to(['read', 'write', 'delete'])],
+        'knowledge-base-raw-files/*': [
+            allow.authenticated.to(['read', 'write', 'delete']),
+            allow.resource(adminTab).to(['read', 'write'])
+        ],
         'knowledge-base-processed-files/*': [allow.resource(adminTab).to(['read', 'write'])]
     })
 });
