@@ -4,6 +4,7 @@ import { userTab } from './functions/usertab/resource';
 import { adminTab } from './functions/admintab/resource';
 import { storage } from './storage/resource';
 import { Stack } from 'aws-cdk-lib';
+import * as iam from 'aws-cdk-lib/aws-iam';
 import {
   CorsHttpMethod,
   HttpApi,
@@ -37,7 +38,6 @@ const httpUserLambdaIntegration = new HttpLambdaIntegration(
   backend.userTab.resources.lambda
 );
 
-
 // Create an HTTP API
 const httpApi = new HttpApi(apiStack, 'HttpApi', {
   apiName: 'chatApi',
@@ -69,3 +69,11 @@ backend.addOutput({
     },
   },
 });
+
+// Add permission for User Tab Lambda to invoke Bedrock Agents
+backend.userTab.resources.lambda.addToRolePolicy(
+  new iam.PolicyStatement({
+    actions: ['bedrock:InvokeAgent'],
+    resources: ['*'],
+  })
+);
