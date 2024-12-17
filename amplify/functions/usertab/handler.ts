@@ -32,16 +32,27 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     console.log("Initial Bedrock Agent Response:", response);
 
     let responseText = "";
-      // Safely handle response.completion
+    let attributions: any[] = [];
+
       if (response.completion) {
         for await (const event of response.completion) {
-          if (event.chunk && event.chunk.bytes) {
+          if (event.chunk?.bytes) {
             responseText += Buffer.from(event.chunk.bytes).toString("utf-8");
           }
+          if (event.chunk?.attribution) {
+            attributions.push({
+              citation: event.chunk.attribution.citations
+            })
+          }
+
         }
+      
       } else {
         console.warn("No completion stream found in the response.");
       }
+      
+    console.log("Final Bedrock Agent Response:", responseText);
+    console.log("Response Attributions:", attributions);
 
     return {
       statusCode: 200,
@@ -49,7 +60,10 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Headers": "*",
       },
-      body: JSON.stringify({ response: responseText }),
+      body: JSON.stringify({ 
+        response: responseText,
+        attributions: attributions,
+       }),
     };
   } catch (error) {
     console.error("Error invoking Bedrock Agent:", error);
