@@ -70,10 +70,10 @@ backend.addOutput({
   },
 });
 
-// Add permission for User Tab Lambda to invoke Bedrock Agents
+// Add permission for User Tab Lambda to invoke Bedrock Models
 backend.userTab.resources.lambda.addToRolePolicy(
   new iam.PolicyStatement({
-    actions: ['bedrock:InvokeAgent'],
+    actions: ['bedrock:InvokeModel'],
     resources: ['*'],
   })
 );
