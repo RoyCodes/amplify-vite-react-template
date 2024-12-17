@@ -1,7 +1,7 @@
 import type { APIGatewayProxyHandlerV2 } from "aws-lambda";
 import { BedrockRuntimeClient, InvokeModelCommand } from "@aws-sdk/client-bedrock-runtime";
+import { env } from "$amplify/env/usertab";
 
-// trying via the bedrock api directly w/ knowledge base
 const bedrockClient = new BedrockRuntimeClient({ region: "us-west-2" });
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) => {
@@ -19,13 +19,13 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     }
 
     const payload = {
-      knowledgeBaseId: process.env.KNOWLEDGE_BASE_ID,
+      knowledgeBaseId: env.KNOWLEDGE_BASE_ID,
       inputText: userInput,
     };
 
     const modelCommand = new InvokeModelCommand({
       body: JSON.stringify(payload),
-      modelId: process.env.MODEL_ID,
+      modelId: env.MODEL_ID,
       contentType: "application/json",
       accept: "application/json",
     });
