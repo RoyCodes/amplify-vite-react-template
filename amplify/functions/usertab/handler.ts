@@ -87,7 +87,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
         "Access-Control-Allow-Headers": "*",
       },
       body: JSON.stringify({ 
-        parsedResponse.output
+        parsedResponse
         // response: responseText,
         // attributions: attributions,
        }),
