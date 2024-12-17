@@ -44,7 +44,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
     const modelCommand = new InvokeModelCommand({
       body: JSON.stringify(payload),
-      modelId: env.MODEL_ID,
+      modelId: process.env.MODEL_ID,
       contentType: "application/json",
       accept: "application/json",
     })
