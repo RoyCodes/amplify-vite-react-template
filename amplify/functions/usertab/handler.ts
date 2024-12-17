@@ -35,16 +35,16 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     });
 
     const payload = {
-      knowledgeBaseId: env.KNOWLEDGE_BASE_ID,
+      knowledgeBaseId: process.env.KNOWLEDGE_BASE_ID,
       retrievalQuery: userInput,
       generationConfiguration: {
-        modelId: env.MODEL_ID,
+        modelId: process.env.MODEL_ID,
       },
     };
 
     const modelCommand = new InvokeModelCommand({
       body: JSON.stringify(payload),
-      modelId: "amazon.titan-text-lite-v1", // Match the selected model
+      modelId: env.MODEL_ID,
       contentType: "application/json",
       accept: "application/json",
     })
