@@ -39,12 +39,11 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
           if (event.chunk?.bytes) {
             responseText += Buffer.from(event.chunk.bytes).toString("utf-8");
           }
-          if (event.chunk?.attribution) {
-            attributions.push({
-              citation: event.chunk.attribution.citations
-            })
-          }
 
+          const attribution = event.chunk?.attribution;
+          if (attribution) {
+            attributions.push(attribution);
+          }
         }
       
       } else {
