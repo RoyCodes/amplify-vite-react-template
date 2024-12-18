@@ -21,32 +21,28 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     }
 
     const retrieveInput = {
-      knowledgeBaseId: env.KNOWLEDGE_BASE_ID, // Your Knowledge Base ID
+      knowledgeBaseId: env.KNOWLEDGE_BASE_ID,
       retrievalQuery: {
         text: userInput,
       },
     };
 
     const retrieveCommand = new RetrieveCommand(retrieveInput);
-
-    // Send the command to retrieve data
     const retrievalResponse = await bedrockAgentClient.send(retrieveCommand);
     console.log("Retrieval Response:", retrievalResponse);
 
-    // Extract results
     const retrievalResults = retrievalResponse.retrievalResults || [];
     const formattedResults = retrievalResults.map((result) => ({
       content: result.content?.text || "",
       location: result.location,
       score: result.score,
-      metadata: result.metadata,
+      metadata: result.metadata
     }));
 
     console.log("Formatted Results:", formattedResults);
 
     const payload = {
-      knowledgeBaseId: env.KNOWLEDGE_BASE_ID,
-      inputText: userInput,
+      prompt: `you are a friendly chatbot that answers technical questions from users. The following will be an inquiry from a user, as well as results from a knowledge base look-up to help you form your answer. Here is the inquiry: <start of inquiry> "${userInput}" <end of inquiry>. And, here are the results from the knowledge base look-up: <start of knowledge base look-up> "${formattedResults}" < end of knowledge base look-up>.`
     };
 
     const modelCommand = new InvokeModelCommand({
@@ -60,7 +56,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     console.log("Initial Bedrock Agent Response:", response);
 
     const parsedResponse = JSON.parse(new TextDecoder().decode(response.body));
-    console.log("Knowledge Base Response:", parsedResponse);
+    console.log("Bedrock Model Response:", parsedResponse);
 
     return {
       statusCode: 200,
@@ -69,7 +65,8 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
         "Access-Control-Allow-Headers": "*",
       },
       body: JSON.stringify({ 
-        parsedResponse
+        response: parsedResponse,
+        formattedResults
        }),
     };
   } catch (error) {
