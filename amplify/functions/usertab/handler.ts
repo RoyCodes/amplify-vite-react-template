@@ -42,8 +42,10 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     console.log("Formatted Results:", formattedResults);
 
     const payload = {
-      prompt: `you are a friendly chatbot that answers technical questions from users. The following will be an inquiry from a user, as well as results from a knowledge base look-up to help you form your answer. Here is the inquiry: <start of inquiry> "${userInput}" <end of inquiry>. And, here are the results from the knowledge base look-up: <start of knowledge base look-up> "${formattedResults}" < end of knowledge base look-up>.`
+      inputText: `you are a friendly chatbot that answers technical questions from users. The following will be an inquiry from a user, as well as results from a knowledge base look-up to help you form your answer. Here is the inquiry: <start of inquiry> "${userInput}" <end of inquiry>. And, here are the results from the knowledge base look-up: <start of knowledge base look-up> "${formattedResults}" < end of knowledge base look-up>.`
     };
+
+    console.log("payload for InvokeModelCommand: ", payload)
 
     const modelCommand = new InvokeModelCommand({
       body: JSON.stringify(payload),
