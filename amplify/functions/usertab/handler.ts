@@ -27,22 +27,25 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       },
     };
 
-    const retrieveCommand = new RetrieveCommand(retrieveInput);
-    const retrievalResponse = await bedrockAgentClient.send(retrieveCommand);
-    console.log("Retrieval Response:", retrievalResponse);
+// Retrieve and process results
+const retrieveCommand = new RetrieveCommand(retrieveInput);
+const retrievalResponse = await bedrockAgentClient.send(retrieveCommand);
+console.log("Retrieval Response:", retrievalResponse);
 
-    const retrievalResults = retrievalResponse.retrievalResults || [];
-    const formattedResults = retrievalResults.map((result) => ({
-      content: result.content?.text || "",
-      location: result.location,
-      score: result.score,
-      metadata: result.metadata
-    }));
+const retrievalResults = retrievalResponse.retrievalResults || [];
+const formattedResults = retrievalResults.map((result) => ({
+  content: result.content?.text || "",
+  location: result.location,
+  score: result.score,
+  metadata: result.metadata
+}));
 
-    console.log("Formatted Results:", formattedResults);
+const knowledgeBaseSummary = (retrievalResponse.retrievalResults || [])
+  .map((result, index) => `Result ${index + 1}: ${result.content?.text?.trim() || ""}`)
+  .join("\n\n");
 
     const payload = {
-      inputText: `You are a friendly chatbot that answers technical questions from users. The following will be an inquiry from a user, as well as results from a knowledge base look-up regarding their question which may help you to formulate your response. Your task is to create a response, and try to use the provided knowledge base results if you can. Here is the user's inquiry: <start of inquiry> ${userInput} <end of inquiry>. And, here are the results from the knowledge base look-up: <start of knowledge base look-up> ${JSON.stringify(formattedResults, null, 2)} < end of knowledge base look-up>.`
+      inputText: `You are a friendly chatbot that answers technical questions from users. The following will be an inquiry from a user, as well as results from a knowledge base look-up regarding their question which may help you to formulate your response. Your task is to create a response, and try to use the provided knowledge base results if you can. Here is the user's inquiry: <start of inquiry> ${userInput} <end of inquiry>. And, here are the results from the knowledge base look-up: <start of knowledge base look-up> ${knowledgeBaseSummary} < end of knowledge base look-up>.`
     };
 
     console.log("payload for InvokeModelCommand: ", payload)
