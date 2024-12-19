@@ -42,7 +42,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     console.log("Formatted Results:", formattedResults);
 
     const payload = {
-      inputText: `you are a friendly chatbot that answers technical questions from users. Once they submit question, it is first sent to a knowledge base to gather supplemental materials, where possible, to help you build your reply. The following will be an inquiry from a user, as well as the results from a knowledge base look-up. Your task is to create a detailed response using the provided results when applicable. Please include the file name and page numbers from the knowledge base results as citations in your final reply. Here is the user's inquiry: <start of inquiry> "${userInput}" <end of inquiry>. And, here are the results from the knowledge base look-up: <start of knowledge base look-up> "${formattedResults}" < end of knowledge base look-up>.`
+      inputText: `You are a friendly chatbot that answers technical questions from users. The following will be an inquiry from a user, as well as results from a knowledge base look-up regarding their question which may help you to formulate your response. Your task is to create a response, and try to use the provided knowledge base results if you can. Here is the user's inquiry: <start of inquiry> "${userInput}" <end of inquiry>. And, here are the results from the knowledge base look-up: <start of knowledge base look-up> "${formattedResults}" < end of knowledge base look-up>.`
     };
 
     console.log("payload for InvokeModelCommand: ", payload)
