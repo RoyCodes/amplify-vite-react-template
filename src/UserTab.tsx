@@ -28,7 +28,7 @@ export default function UserTab() {
 
   // State
   const [value, setValue] = React.useState("");
-  const [feedback, setFeedback] = React.useState("");
+  // const [feedback, setFeedback] = React.useState("");
   const [message, setMessage] = React.useState<Message[]>([
     {
       sender: 'AI',
@@ -146,8 +146,8 @@ export default function UserTab() {
               <>
                 <ButtonGroup
                   onItemClick={({ detail }) =>
-                    ["like", "dislike"].includes(detail.id) &&
-                    setFeedback(detail.pressed ? detail.id : "")
+                    ["like", "dislike"].includes(detail.id) 
+                  // && setFeedback(detail.pressed ? detail.id : "")
                   }
                   ariaLabel="Chat actions"
                   items={[
