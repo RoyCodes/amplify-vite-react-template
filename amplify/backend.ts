@@ -74,6 +74,18 @@ backend.addOutput({
 backend.userTab.resources.lambda.addToRolePolicy(
   new iam.PolicyStatement({
     actions: ['bedrock:InvokeModel', 'bedrock:Retrieve'],
-    resources: ['*'],
+    resources: ['*']
   })
 );
+
+// Add permission for Admin Tab Lambda to invoke Amazon Transcribe
+backend.adminTab.resources.lambda.addToRolePolicy(
+  new iam.PolicyStatement({
+    actions: [
+      "transcribe:StartTranscriptionJob",
+      "transcribe:GetTranscriptionJob",
+      "transcribe:ListTranscriptionJobs"
+    ],
+    resources: ['*']
+  })
+)
