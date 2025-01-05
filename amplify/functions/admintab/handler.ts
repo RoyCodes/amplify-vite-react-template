@@ -1,7 +1,10 @@
 import type { S3Handler } from 'aws-lambda';
 import { S3Client, CopyObjectCommand } from '@aws-sdk/client-s3';
+import { TranscribeClient, StartTranscriptionJobCommand} from '@aws-sdk/client-transcribe';
 
 const s3 = new S3Client({ region: process.env.AWS_REGION });
+
+const transcribe = new TranscribeClient({ region: process.env.AWS_REGION });
 
 export const handler: S3Handler = async (event) => {
 
@@ -10,10 +13,23 @@ export const handler: S3Handler = async (event) => {
       const sourceBucket = record.s3.bucket.name;
       const sourceKey = record.s3.object.key;
       const fileExtension = sourceKey.split('.').pop()?.toLocaleLowerCase();
-      const audioExtensions = ['mp3', 'wave', 'flac'];
+      const audioExtensions = ['mp3', 'wav', 'flac'];
 
       if (audioExtensions.includes(fileExtension || '')) {
-        console.log('audio file detected')
+
+        const jobName = `transcription-${Date.now()}-${sourceKey.replace(/[^a-zA-Z0-9-_]/g, '_')}`;
+        const mediaUri = `s3://${sourceBucket}/${sourceKey}`;
+        const outputBucket = sourceBucket;
+
+        const transcribeCommand = new StartTranscriptionJobCommand({
+          TranscriptionJobName: jobName,
+          LanguageCode: 'en-US',
+          MediaFormat: fileExtension as "mp3" | "wav" | "flac",
+          Media: { MediaFileUri: mediaUri },
+          OutputBucketName: outputBucket
+        });
+        const response = await transcribe.send(transcribeCommand);
+        console.log('Transcription job started:', response);
         continue;
       }
 
