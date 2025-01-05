@@ -89,3 +89,12 @@ backend.adminTab.resources.lambda.addToRolePolicy(
     resources: ['*']
   })
 )
+
+// Add permission for Transcribe to invoke S3
+backend.storage.resources.bucket.addToResourcePolicy(
+  new iam.PolicyStatement({
+    actions: ['s3:PutObject', 's3:GetObject'],
+    resources: ['*'],
+    principals: [new iam.ServicePrincipal('transcribe.amazonaws.com')]
+  })
+);
