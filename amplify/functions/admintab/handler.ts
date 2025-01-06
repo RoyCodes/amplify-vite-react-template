@@ -15,6 +15,12 @@ export const handler: S3Handler = async (event) => {
       const fileExtension = sourceKey.split('.').pop()?.toLocaleLowerCase();
       const audioExtensions = ['mp3', 'wav', 'flac'];
 
+      // Check if S3 trigger was from raw file upload. Don't continue for processed file triggers
+      if (!sourceKey.startsWith('knowledge-base-raw-files/')) {
+        console.log('Skipping non-raw file:', sourceKey);
+        continue;
+      }
+
       if (audioExtensions.includes(fileExtension || '')) {
 
         const jobName = `transcription-${Date.now()}-${sourceKey.replace(/[^a-zA-Z0-9-_]/g, '_')}`;
