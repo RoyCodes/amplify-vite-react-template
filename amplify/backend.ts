@@ -88,7 +88,7 @@ backend.adminTab.resources.lambda.addToRolePolicy(
     ],
     resources: ['*']
   })
-)
+);
 
 // Add permission for Transcribe to invoke S3
 backend.storage.resources.bucket.addToResourcePolicy(
