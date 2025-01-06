@@ -27,7 +27,8 @@ export const handler: S3Handler = async (event) => {
           LanguageCode: 'en-US',
           MediaFormat: fileExtension as "mp3" | "wav" | "flac",
           Media: { MediaFileUri: mediaUri },
-          OutputBucketName: outputBucket
+          OutputBucketName: outputBucket,
+          OutputKey: `knowledge-base-processed-files/${jobName}.json`
         });
         const response = await transcribe.send(transcribeCommand);
         console.log('Transcription job started:', response);
