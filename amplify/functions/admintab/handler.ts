@@ -20,6 +20,7 @@ export const handler: S3Handler = async (event) => {
         const jobName = `transcription-${Date.now()}-${sourceKey.replace(/[^a-zA-Z0-9-_]/g, '_')}`;
         const mediaUri = `s3://${sourceBucket}/${sourceKey}`;
         const outputBucket = sourceBucket;
+        console.log(`this is what I have for the sourceBucket value: ${sourceBucket}`)
 
         const transcribeCommand = new StartTranscriptionJobCommand({
           TranscriptionJobName: jobName,
