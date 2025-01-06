@@ -94,7 +94,10 @@ backend.adminTab.resources.lambda.addToRolePolicy(
 backend.storage.resources.bucket.addToResourcePolicy(
   new iam.PolicyStatement({
     actions: ['s3:PutObject', 's3:GetObject'],
-    resources: ['*'],
+    resources: [
+      `arn:aws:s3:::${backend.storage.resources.bucket.bucketName}`,
+      `arn:aws:s3:::${backend.storage.resources.bucket.bucketName}/*`
+    ],
     principals: [new iam.ServicePrincipal('transcribe.amazonaws.com')]
   })
 );
