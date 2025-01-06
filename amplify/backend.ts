@@ -73,7 +73,10 @@ backend.addOutput({
 // Add permission for User Tab Lambda to invoke Bedrock Models
 backend.userTab.resources.lambda.addToRolePolicy(
   new iam.PolicyStatement({
-    actions: ['bedrock:InvokeModel', 'bedrock:Retrieve'],
+    actions: [
+      "bedrock:InvokeModel", 
+      "bedrock:Retrieve"
+    ],
     resources: ['*']
   })
 );
@@ -84,16 +87,21 @@ backend.adminTab.resources.lambda.addToRolePolicy(
     actions: [
       "transcribe:StartTranscriptionJob",
       "transcribe:GetTranscriptionJob",
-      "transcribe:ListTranscriptionJobs"
+      "transcribe:ListTranscriptionJobs",
+      "bedrock:StartIngestionJob"
     ],
-    resources: ['*']
+    resources: ["*"]
   })
 );
 
 // Add permission for Transcribe to invoke S3
 backend.storage.resources.bucket.addToResourcePolicy(
   new iam.PolicyStatement({
-    actions: ['s3:PutObject', 's3:GetObject', 's3:ListBucket'],
+    actions: [
+      "s3:PutObject", 
+      "s3:GetObject", 
+      "s3:ListBucket"
+    ],
     resources: [
       `arn:aws:s3:::${backend.storage.resources.bucket.bucketName}`,
       `arn:aws:s3:::${backend.storage.resources.bucket.bucketName}/*`
