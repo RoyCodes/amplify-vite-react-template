@@ -2,6 +2,7 @@ import type { S3Handler } from 'aws-lambda';
 import { S3Client, CopyObjectCommand } from '@aws-sdk/client-s3';
 import { TranscribeClient, StartTranscriptionJobCommand} from '@aws-sdk/client-transcribe';
 import { BedrockAgentClient, StartIngestionJobCommand } from "@aws-sdk/client-bedrock-agent";
+import { env } from "$amplify/env/admintab";
 
 const s3 = new S3Client({ region: process.env.AWS_REGION });
 
@@ -9,8 +10,8 @@ const transcribe = new TranscribeClient({ region: process.env.AWS_REGION });
 
 const bedrockAgentClient = new BedrockAgentClient({ region: process.env.AWS_REGION });
 
-const knowledgeBaseId = process.env.KNOWLEDGE_BASE_ID!;
-const dataSourceId = process.env.DATA_SOURCE_ID!;
+const knowledgeBaseId = env.KNOWLEDGE_BASE_ID!;
+const dataSourceId = env.DATA_SOURCE_ID!;
 
 const startIngestionJob = async (knowledgeBaseId: string, dataSourceId: string) => {
   try {
