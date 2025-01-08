@@ -2,6 +2,7 @@ import type { S3Handler } from 'aws-lambda';
 import { S3Client, CopyObjectCommand } from '@aws-sdk/client-s3';
 import { TranscribeClient, StartTranscriptionJobCommand} from '@aws-sdk/client-transcribe';
 import { BedrockAgentClient, StartIngestionJobCommand } from "@aws-sdk/client-bedrock-agent";
+import { v4 as uuidv4 } from 'uuid';
 import { env } from "$amplify/env/admintab";
 
 const s3 = new S3Client({ region: process.env.AWS_REGION });
@@ -18,7 +19,7 @@ const startIngestionJob = async (knowledgeBaseId: string, dataSourceId: string) 
     const input = {
       knowledgeBaseId,
       dataSourceId,
-      clientToken: `token-${Date.now()}`,
+      clientToken: uuidv4(),
       description: "Triggered ingestion from Lambda",
     };
 
