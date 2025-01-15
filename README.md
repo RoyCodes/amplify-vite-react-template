@@ -10,7 +10,7 @@ It was built using the AWS Amplify React+Vite Starter Template
 
 ## Demo
 
-![Prototype Demo](assets/bedrock-kb-prototype-demo.gif)
+![Prototype Demo](src/assets/bedrock-kb-prototype-demo.gif)
 
 ## Features
 
@@ -22,7 +22,7 @@ It was built using the AWS Amplify React+Vite Starter Template
 
 ## Architecture
 
-![Architecture Diagram](assets/reference-architecture.png)
+![Architecture Diagram](src/assets/reference-architecture.png)
 
 ### Components:
 
