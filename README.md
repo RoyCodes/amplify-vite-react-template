@@ -4,7 +4,7 @@
 
 ## Overview
 
-This project is a prototype for managing an Amazon Bedrock Knowledge Base using AWS Amplify (Gen 2), Cloudscape Design System, TypeScript, and React. It enables users to upload files, integrate them into a knowledge base, and interact with a chatbot powered by Amazon Bedrock.
+This Gen AI prototype allows users to upload audio and text into a private knowledge base that augments their chats with the Gen AI assistant. It's built with an Amazon Bedrock Knowledge Base using AWS Amplify (Gen 2), Cloudscape Design System, TypeScript, and React. 
 
 It was built using the AWS Amplify React+Vite Starter Template
 
@@ -15,18 +15,15 @@ It was built using the AWS Amplify React+Vite Starter Template
 
 ## Features
 
-- **File Uploads**: Supports audio (mp3, wav, flac) and text (txt, md, html, docx, pdf) files.
-- **Real-time Transcription**: Converts audio files to text using Amazon Transcribe.
-- **Knowledge Base Integration**: Updates and refreshes the knowledge base using Amazon Bedrock.
-- **Chatbot Interaction**: Enables conversations with a generative AI assistant using the knowledge base.
-- **Responsive Design**: Built with Cloudscape components for a seamless user experience.
-- **Authentication**: Setup with Amazon Cognito for secure user authentication.
-- **API**: Ready-to-use GraphQL endpoint with AWS AppSync.
-- **Database**: Real-time database powered by Amazon DynamoDB.
+- **Chatbot Interaction**: Enables conversations with a Gen AI assistant via Amazon Bedrock Foundation Models.
+- **File Uploads**: Supports audio (mp3, wav, flac) and text (txt, md, html, docx, pdf) file uploads to S3.
+- **Real-time Transcription**: Converts audio via Amazon Transcribe speech-to-text and uploads the results to S3.
+- **Knowledge Base Integration**: Processed text is then uploaded into an Amazon Bedrock Knowledge base for augmenting user inquiries. 
+- **Responsive Design**: Built with Cloudscape components for a seamless user experience that's familiar to AWS users.
 
 ## Architecture
 
-![Architecture Diagram](assets/architecture-diagram.png)
+![Architecture Diagram](assets/reference-architecture.png)
 
 ### Components:
 
@@ -104,4 +101,4 @@ Set the following environment variables within your Amplify project:
 - **Amazon Bedrock**: Practical integration of generative AI with knowledge bases.
 
 ## License
-This project is licensed under the MIT License. See `LICENSE.md` for details.
+This project is licensed under the MIT License. See [LICENSE.md](LICENSE.md) for details.

@@ -13,7 +13,7 @@ import UserTab from "./UserTab"
 function App() {
   return (
     <Authenticator>
-      {({ signOut, user }) => (
+      {({ signOut}) => (
         <main>
           <ContentLayout defaultPadding maxContentWidth={1200}>
             <SpaceBetween size="m" direction="vertical">
