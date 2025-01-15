@@ -15,29 +15,31 @@ function App() {
     <Authenticator>
       {({ signOut, user }) => (
         <main>
-          <ContentLayout>
-            <Container header={<h1>Welcome, {user?.username || "User"}!</h1>}>
-              <SpaceBetween size="l" direction="vertical">
-                <Tabs
-                  tabs={[
-                    {
-                      label: "Admin",
-                      id: "first",
-                      content: (
-                        <AdminTab />
-                      ),
-                    },
-                    {
-                      label: "User",
-                      id: "second",
-                      content: <UserTab />
-                    }
-                  ]}
-                  variant="container"
-                />
-                <Button onClick={signOut}> Sign out </Button>
-              </SpaceBetween>
-            </Container>
+          <ContentLayout defaultPadding maxContentWidth={1200}>
+            <SpaceBetween size="m" direction="vertical">
+              <Container fitHeight header={<h1>Welcome!</h1>}>
+                <SpaceBetween size="m" direction="vertical">
+                  <Tabs
+                    tabs={[
+                      {
+                        label: "Admin",
+                        id: "first",
+                        content: (
+                          <AdminTab />
+                        ),
+                      },
+                      {
+                        label: "User",
+                        id: "second",
+                        content: <UserTab />
+                      }
+                    ]}
+                    variant="container"
+                  />
+                  <Button onClick={signOut}> Sign out </Button>
+                </SpaceBetween>
+              </Container>
+            </SpaceBetween>
           </ContentLayout>
         </main>
       )}

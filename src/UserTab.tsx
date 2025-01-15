@@ -123,7 +123,7 @@ export default function UserTab() {
   // Render
   return (
     <SpaceBetween direction="vertical" size="m">
-      <Header variant="h1">Chat with a generative AI assistant</Header>
+      <Header variant="h1">Gen AI Assistant with Knowledge Base</Header>
       <Container>
 
         {message.map((msg, index) => (
