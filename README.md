@@ -10,8 +10,7 @@ It was built using the AWS Amplify React+Vite Starter Template
 
 ## Demo
 
-![File Upload Demo](assets/file-upload-demo.gif)
-![Chat Demo](assets/chat-demo.gif)
+![Prototype Demo](assets/bedrock-kb-prototype-demo.gif)
 
 ## Features
 
@@ -45,16 +44,19 @@ It was built using the AWS Amplify React+Vite Starter Template
 
 ### Installation
 
-1. Clone the repository:
+1. Create a new project in AWS Amplify
+- Remember to choose a region that supports all of the Amazon Bedrock features that you wish to use.
+
+2. Clone the repository:
    ```bash
    git clone https://github.com/username/repo-name.git
    cd repo-name
    ```
-2. Install dependencies:
+3. Install dependencies:
    ```bash
    npm install
    ```
-3. Initialize Amplify:
+4. Initialize Amplify:
    ```bash
    amplify init
    amplify push
@@ -65,6 +67,7 @@ It was built using the AWS Amplify React+Vite Starter Template
 Set up Amazon Bedrock
 - Request access to models
 - Create Knowledge Base
+- Warning - leaving a Knowledge base up and running provisions resources that accrue ongoing costs.
 
 Set the following environment variables within your Amplify project:
 - `KNOWLEDGE_BASE_ID`
@@ -96,9 +99,9 @@ Set the following environment variables within your Amplify project:
 
 ## Lessons Learned
 
-- **Amplify Gen 2**: Streamlined backend workflows and seamless deployment.
-- **Cloudscape**: Simplified component-based UI design.
-- **Amazon Bedrock**: Practical integration of generative AI with knowledge bases.
+- **Amplify Gen 2**: Streamlined backend workflows and seamless deployment. The Gen 2 interface and feature set is very well packaged and is motivating me to move my Gen 1 projects over.
+- **Cloudscape**: Simplified component-based UI design. The documentation and sample playground are robust and made learning easy. Also, the Figma integration helped me to mock up my ideas before I started implementing the features.
+- **Amazon Bedrock**: Practical integration of generative AI with knowledge bases. Trying out different foundation models and experimenting with prompting is very approachable.
 
 ## License
 This project is licensed under the MIT License. See [LICENSE.md](LICENSE.md) for details.
